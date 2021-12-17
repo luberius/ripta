@@ -1,0 +1,14 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIPTA | {{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+</head>
+<body>
+<div id="content" class="pt-4 flex-1 md:pt-8 px-0 md:p-4 bg-[#faf8f5] h-full">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

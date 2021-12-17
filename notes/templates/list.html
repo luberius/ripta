@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="flex flex-wrap">
+
+        <a href="/note?action=new" class="note items-center justify-center border-[#AE46A4] border-opacity-30"
+           data-menu="0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#AE46A4]" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="text-sm mt-3 text-[#AE46A4]">Create New Note</span>
+        </a>
+
+        {% for note in note_list %}
+            <a href="/note?action=view&id={{ note.id }}" class="note" data-id="{{ note.id }}">
+            <span class="note-title">
+                {{ note.title }}
+            </span>
+                <p class="note-content">
+                    {{ note.content }}
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+
+    <script>
+        window.onload = function () {
+            const notesElement = document.getElementsByClassName('note')
+            let activeElement = undefined
+
+            function openMenu(e, id) {
+                closeMenu()
+
+                if (activeElement) activeElement.classList.add('note-active')
+                const menu = document.getElementById("menu")
+
+                menu.style.display = 'block';
+                menu.style.left = e.pageX + "px";
+                menu.style.top = e.pageY + "px";
+                menu.setAttribute('data-id', id)
+
+                if (menu.offsetWidth + e.pageX > window.outerWidth) {
+                    menu.style.left = (e.pageX - menu.offsetWidth) + "px";
+                }
+
+                if (menu.offsetHeight + e.pageY > window.outerHeight) {
+                    menu.style.top = (e.pageY - menu.offsetHeight) + "px";
+                }
+            }
+
+            function closeMenu() {
+                document.getElementById("menu").style.display = "none"
+                if (activeElement) activeElement.classList.remove('note-active')
+            }
+
+            document.addEventListener('click', function () {
+                closeMenu()
+            })
+
+            // Not using keypress coz Escape key only fire the keyup and keydown event
+            document.addEventListener('keyup', evt => {
+                if (evt.key === 'Escape') closeMenu()
+            })
+
+            for (let noteElement of notesElement) {
+                if (noteElement.getAttribute('data-menu') === '0') continue
+                noteElement.addEventListener('contextmenu', evt => {
+                    evt.preventDefault()
+                    activeElement = noteElement
+                    openMenu(evt, noteElement.getAttribute('data-id'))
+                })
+            }
+        }
+    </script>
+{% endblock content %}

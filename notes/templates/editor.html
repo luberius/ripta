@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex flex-col mx-4 h-full">
+        <input type="text" id="title" class="font-bold focus:ring-0 text-xl border-0 w-full outline-none bg-transparent"
+               placeholder="Title" autofocus value="{{ note.title }}" onkeyup="save()">
+        <textarea id="note"
+                  class="outline-none border-0 focus:ring-0 bg-transparent mt-2 text-sm overflow-auto flex-1 mb-4"
+                  placeholder="Write your note here.." onkeyup="save()">{{ note.content }}</textarea>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+
+        let isSaving = false
+        let timeout
+
+        function startTimeout() {
+            timeout = setTimeout(doSave, 1000)
+        }
+
+        function save() {
+            clearTimeout(timeout)
+            startTimeout()
+        }
+
+        function doSave() {
+            isSaving = true
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+
+            const id = params.id
+            const title = document.getElementById('title').value
+            const content = document.getElementById('note').value
+            const csrftoken = Cookies.get('csrftoken');
+
+            const data = {
+                'id': id ? parseInt(id, 10) : {{ id }},
+                'title': title,
+                'content': content
+            }
+
+            const loading = document.getElementById('loading')
+            loading.classList.remove('hidden')
+
+            fetch('/note/save', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify(data)
+            }).then(res => {
+                loading.classList.add('hidden')
+            }).catch(err => {
+                loading.classList.add('hidden')
+                console.error(err)
+            })
+        }
+
+        window.onbeforeunload = function () {
+            doSave()
+        };
+
+    </script>
+
+{% endblock content %}

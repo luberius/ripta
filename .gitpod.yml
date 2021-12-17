@@ -1,0 +1,18 @@
+tasks:
+  - init: |
+      pyenv install 3.9.0
+      pyenv local 3.9
+      pipenv shell
+      pipenv install
+      python manage.py migrate
+    command: |
+      python manage.py runserver
+
+ports:
+  - port: 8000
+    visibility: private
+    onOpen: open-preview
+
+vscode:
+  extensions:
+    - ms-python.python

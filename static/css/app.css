@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.button-icon {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.note {
+    @apply flex flex-col border rounded-lg drop-shadow-sm w-40 md:w-56 lg:w-52 2xl:w-60 h-44 md:h-60 xl:h-64 p-4 ml-4 lg:ml-8 mb-8 transition bg-white;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.note:active {
+    @apply drop-shadow-none bg-gray-100;
+}
+
+.note:focus {
+    @apply border-[#AE46A4]
+}
+
+.note-active {
+    @apply border-[#AE46A4]
+}
+
+.note-title {
+    @apply  font-semibold text-lg;
+}
+
+.note-content {
+    @apply text-xs md:text-sm mt-2 line-clamp-4 md:line-clamp-6;
+    display:block;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.input {
+    @apply rounded-lg border
+
+}
+
+.input:focus {
+    @apply ring-1;
+    --tw-ring-color: '#BDE0E0';
+}

@@ -1,0 +1,28 @@
+{% extends 'auth.html' %}
+
+{% block content %}
+    <div class="flex justify-center items-center">
+        <span class="text-4xl text-[#AE46A4] font-bold mt-8">RIPTA</span>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flex justify-center items-center">
+                <span class="bg-red-100 text-red-600 border border-red-400 rounded-lg py-2 px-6">{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="flex items-center justify-center lg:w-auto mt-16 mx-12 lg:m-16">
+        <form class="w-full lg:w-1/4" method="post" action="/do_login">
+            {% csrf_token %}
+            <div class="flex flex-col mb-4">
+                <label class="mb-2" for="username">Username</label>
+                <input class="input" type="text" id="username" name="username">
+            </div>
+            <div class="flex flex-col mb-4">
+                <label class="mb-2" for="password">Password</label>
+                <input class="input" type="password" id="password" name="password">
+            </div>
+            <button class="w-full bg-blue-500 mt-2 py-2 rounded-lg text-white hover:bg-blue-400">Login</button>
+        </form>
+    </div>
+{% endblock %}
